@@ -1,24 +1,34 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
+const {
+	REQUIRED_FIELD,
+	INVALID_EMAIL,
+	INVALID_LENGTH,
+} = require("../config/errorMessages")
 
 const commentSchema = new mongoose.Schema(
-  {
-    content: {
-      type: String,
-      minlength: 50,
-      maxlength: 300,
-    },
+	{
+		content: {
+			type: String,
+			minlength: 50,
+			maxlength: 300,
+		},
 
-    active: {
-      type: Boolean,
-      default: true,
-    },
+		active: {
+			type: Boolean,
+			default: true,
+		},
 
-    },
-  {
-    timestamps: true,
-  }
-);
+		owner: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: [true, REQUIRED_FIELD],
+		},
+	},
+	{
+		timestamps: true,
+	}
+)
 
-const Comment = mongoose.model('Comment', commentSchema);
+const Comment = mongoose.model("Comment", commentSchema)
 
-module.exports = Comment;
+module.exports = Comment

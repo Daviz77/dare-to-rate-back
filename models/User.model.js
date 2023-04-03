@@ -1,6 +1,10 @@
 const mongoose = require("mongoose")
 const bcryptjs = require("bcryptjs")
-const { REQUIRED_FIELD, INVALID_EMAIL, INVALID_LENGTH } = require('../config/errorMessages');
+const {
+	REQUIRED_FIELD,
+	INVALID_EMAIL,
+	INVALID_LENGTH,
+} = require("../config/errorMessages")
 
 const EMAIL_PATTERN =
 	/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -26,7 +30,7 @@ const userSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: [true, REQUIRED_FIELD],
-      minlength: [6, INVALID_LENGTH],
+			minlength: [6, INVALID_LENGTH],
 		},
 
 		type: {
@@ -43,8 +47,8 @@ const userSchema = new mongoose.Schema(
 
 		about: {
 			type: String,
-      minlength:50,
-      maxlength: 200,
+			minlength: 50,
+			maxlength: 200,
 		},
 
 		following: [
@@ -64,22 +68,37 @@ const userSchema = new mongoose.Schema(
 	}
 )
 
-userSchema.pre('save', function (next) {
-  const rawPassword = this.password;
-  if (this.isModified('password')) {   
-    bcryptjs.hash(rawPassword, SALT_ROUNDS)
-      .then(hash => {
-        this.password = hash;
-        next()
-      })
-      .catch(err => next(err))
-  } else {
-    next();
-  }
-});
+userSchema.virtual("reviews", {
+	ref: "Review",
+	foreignField: "owner",
+	localField: "_id",
+	justOne: false,
+})
+
+userSchema.virtual("comments", {
+	ref: "Comment",
+	foreignField: "owner",
+	localField: "_id",
+	justOne: false,
+})
+
+userSchema.pre("save", function (next) {
+	const rawPassword = this.password
+	if (this.isModified("password")) {
+		bcryptjs
+			.hash(rawPassword, SALT_ROUNDS)
+			.then((hash) => {
+				this.password = hash
+				next()
+			})
+			.catch((err) => next(err))
+	} else {
+		next()
+	}
+})
 
 userSchema.methods.checkPassword = function (passwordToCheck) {
-  return bcryptjs.compare(passwordToCheck, this.password)
+	return bcryptjs.compare(passwordToCheck, this.password)
 }
 
 const User = mongoose.model("User", userSchema)

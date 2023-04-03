@@ -1,5 +1,9 @@
 const mongoose = require("mongoose")
-
+const {
+	REQUIRED_FIELD,
+	INVALID_EMAIL,
+	INVALID_LENGTH,
+} = require("../config/errorMessages")
 
 const reviewSchema = new mongoose.Schema(
 	{
@@ -19,6 +23,12 @@ const reviewSchema = new mongoose.Schema(
 			type: Boolean,
 			default: true,
 		},
+
+		owner: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: [true, REQUIRED_FIELD],
+		},
 	},
 
 	{
@@ -29,5 +39,3 @@ const reviewSchema = new mongoose.Schema(
 const Review = mongoose.model("Review", reviewSchema)
 
 module.exports = Review
-
-
