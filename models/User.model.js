@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const bcryptjs = require("bcryptjs")
+const { REQUIRED_FIELD, INVALID_EMAIL, INVALID_LENGTH } = require('../config/errorMessages');
 
 const EMAIL_PATTERN =
 	/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -10,21 +11,22 @@ const userSchema = new mongoose.Schema(
 	{
 		username: {
 			type: String,
-			required: [true, "Username is required."],
+			required: [true, REQUIRED_FIELD],
 			unique: true,
 		},
 
 		email: {
 			type: String,
-			required: [true, "Email is required."],
+			required: [true, REQUIRED_FIELD],
 			unique: true,
 			lowercase: true,
-			match: [EMAIL_PATTERN, "Email is invalid."],
+			match: [EMAIL_PATTERN, INVALID_EMAIL],
 		},
 
 		password: {
 			type: String,
-			required: [true, "Password is required."],
+			required: [true, REQUIRED_FIELD],
+      minlength: [6, INVALID_LENGTH],
 		},
 
 		type: {
@@ -41,6 +43,8 @@ const userSchema = new mongoose.Schema(
 
 		about: {
 			type: String,
+      minlength:50,
+      maxlength: 200,
 		},
 
 		following: [
