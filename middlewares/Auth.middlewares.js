@@ -31,14 +31,13 @@ module.exports.isAuthenticated = (req, res, next) => {
 		)
 	}
 
-	// a comprobarlo con JWT
 	const secret = process.env.JWT_SECRET || "test"
 	jwt.verify(token, secret, (err, decodedToken) => {
 		if (err) {
 			return next(err)
 		}
 
-		req.currentUser = decodedToken.id
+		req.currentUserId = decodedToken.id
 		next()
 	})
 }
