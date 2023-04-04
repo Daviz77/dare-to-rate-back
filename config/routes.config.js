@@ -5,6 +5,7 @@ const healthController = require("../controllers/health.controller")
 const usersController = require("../controllers/users.controller")
 const authController = require("../controllers/auth.controller")
 const reviewsController = require("../controllers/reviews.controller")
+const commentsController = require("../controllers/comments.controller")
 const authMiddleware = require("../middlewares/Auth.middlewares")
 const upload = require('../config/storage.config');
 
@@ -28,5 +29,9 @@ router.post("/reviews", authMiddleware.isAuthenticated, reviewsController.create
 router.get("/reviews", reviewsController.list)
 
 // COMMENT ROUTES
+
+router.post("/comments", authMiddleware.isAuthenticated, commentsController.create)
+router.get("/comments", commentsController.list)
+
 
 module.exports = router
