@@ -4,7 +4,11 @@ const router = express.Router()
 const healthController = require("../controllers/health.controller")
 const usersController = require("../controllers/users.controller")
 const authController = require("../controllers/auth.controller")
-const authMiddleware = require("../middleware/auth.middleware")
+const reviewsController = require("../controllers/reviews.controller")
+const authMiddleware = require("../middlewares/Auth.middlewares")
+const upload = require('../config/storage.config');
+
+// HEALTH CHECK
 
 router.get("/health", healthController.health)
 
@@ -19,6 +23,9 @@ router.get("/users", usersController.list)
 router.get("/users/me", authMiddleware.isAuthenticated, usersController.getCurrentUser)
 
 // REVIEW ROUTES
+
+router.post("/reviews", authMiddleware.isAuthenticated, reviewsController.create)
+router.get("/reviews", reviewsController.list)
 
 // COMMENT ROUTES
 

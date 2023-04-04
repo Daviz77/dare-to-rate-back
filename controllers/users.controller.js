@@ -1,6 +1,4 @@
 const User = require("../models/User.model")
-const Review = require("../models/Review.model")
-const Comment = require("../models/Comment.model")
 const { StatusCodes } = require("http-status-codes")
 const createError = require("http-errors")
 
