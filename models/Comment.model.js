@@ -7,6 +7,17 @@ const {
 
 const commentSchema = new mongoose.Schema(
 	{
+		author: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+		review: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Review',
+			required: true,
+		},
+
 		content: {
 			type: String,
 			minlength: 50,
@@ -16,12 +27,6 @@ const commentSchema = new mongoose.Schema(
 		active: {
 			type: Boolean,
 			default: true,
-		},
-
-		owner: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
-			required: [true, REQUIRED_FIELD],
 		},
 	},
 	{

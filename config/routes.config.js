@@ -29,12 +29,12 @@ router.patch("/profile", authMiddleware.isAuthenticated, usersController.getCurr
 
 router.post("/reviews", authMiddleware.isAuthenticated, reviewsController.create)
 router.post("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.updateReview)
-router.patch("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.deleteReview)
+router.delete("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.deleteReview)
 
 // COMMENT ROUTES
 
-router.post("/comments", authMiddleware.isAuthenticated, commentsController.create)
-router.get("/comments", commentsController.list)
+router.post("/reviews/:reviewId/comments", authMiddleware.isAuthenticated, commentsController.create)
+router.delete("/comments/:id", authMiddleware.isAuthenticated, commentsController.deleteComment)
 
 
 module.exports = router
