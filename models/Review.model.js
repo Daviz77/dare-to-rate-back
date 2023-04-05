@@ -7,24 +7,32 @@ const {
 
 const reviewSchema = new mongoose.Schema(
 	{
+		title: {
+			type: String,
+			required: [true, REQUIRED_FIELD],
+			minlength: [6, INVALID_LENGTH],
+		},
+
 		content: {
 			type: String,
 			required: true,
 			minlength: 50,
 			maxlength: 500,
+			required: [true, REQUIRED_FIELD]
 		},
 
-		likes: {
-			type: Number,
-			default: 0,
-		},
+		likes:
+			[{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'User'
+			}],
 
 		active: {
 			type: Boolean,
 			default: true,
 		},
 
-		owner: {
+		author: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 			required: [true, REQUIRED_FIELD],
