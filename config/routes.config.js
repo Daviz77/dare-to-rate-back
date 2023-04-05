@@ -19,14 +19,17 @@ router.post("/login", authController.login)
 
 // USER ROUTES
 
-router.post("/users", usersController.create)
-router.get("/users", usersController.list)
-router.get("/users/me", authMiddleware.isAuthenticated, usersController.getCurrentUser)
+router.post("/signup", usersController.create)
+router.get('/:username', authMiddleware.isAuthenticated, usersController.getUserByUsername); // obtener perfil de un usuario en concreto
+router.get('/:username/reviews', authMiddleware.isAuthenticated, usersController.getUserReviewsByUsername); // obtener las reseñas publicadas por un ususario concreto
+// router.get("/users", usersController.list) 
+router.patch("/profile", authMiddleware.isAuthenticated, usersController.getCurrentUser) // ver y updatear el profile de mi usuario
 
 // REVIEW ROUTES
 
 router.post("/reviews", authMiddleware.isAuthenticated, reviewsController.create)
-router.get("/reviews", reviewsController.list)
+router.post("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.updateReview)
+router.patch("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.deleteReview)
 
 // COMMENT ROUTES
 
