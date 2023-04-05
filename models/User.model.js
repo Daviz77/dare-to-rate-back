@@ -70,14 +70,14 @@ const userSchema = new mongoose.Schema(
 
 userSchema.virtual("reviews", {
 	ref: "Review",
-	foreignField: "owner",
+	foreignField: "author",
 	localField: "_id",
 	justOne: false,
 })
 
 userSchema.virtual("comments", {
 	ref: "Comment",
-	foreignField: "owner",
+	foreignField: "author",
 	localField: "_id",
 	justOne: false,
 })
