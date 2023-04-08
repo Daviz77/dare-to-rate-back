@@ -22,7 +22,16 @@ module.exports.deleteComment = (req, res, next) => {
 module.exports.getCommentsByReviewId = (req, res, next) => {
   const { reviewId } = req.params;
   Comment.find({ review: reviewId })
-    .populate('user')
+    .populate('user', 'username')
+		.populate('review')
     .then((comments) => res.json(comments))
     .catch(next);
 };
+
+module.exports.updateComment = (req, res, next) => {
+	const { id } = req.params
+	const { content } = req.body
+	Review.findByIdAndUpdate(id, { content }, { new: true })
+		.then((review) => res.status(StatusCodes.OK).json(review))
+		.catch(next)
+}

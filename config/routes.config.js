@@ -28,13 +28,19 @@ router.patch("/profile", authMiddleware.isAuthenticated, usersController.getCurr
 // REVIEW ROUTES
 
 router.post("/reviews", authMiddleware.isAuthenticated, reviewsController.create)
-router.post("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.updateReview)
+router.patch("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.updateReview)
 router.delete("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.deleteReview)
+router.get("/reviews", authMiddleware.isAuthenticated, reviewsController.getAllReviews)
+
 
 // COMMENT ROUTES
 
 router.post("/reviews/:reviewId/comments", authMiddleware.isAuthenticated, commentsController.create)
 router.delete("/comments/:id", authMiddleware.isAuthenticated, commentsController.deleteComment)
+router.patch("/comments/:id", authMiddleware.isAuthenticated, commentsController.updateComment)
+router.get("/reviews/:reviewId/comments", authMiddleware.isAuthenticated, commentsController.getCommentsByReviewId)
+
+
 
 
 module.exports = router
