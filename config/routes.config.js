@@ -31,6 +31,7 @@ router.post("/reviews", authMiddleware.isAuthenticated, reviewsController.create
 router.patch("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.updateReview)
 router.delete("/reviews/:id", authMiddleware.isAuthenticated, reviewsController.deleteReview)
 router.get("/reviews", authMiddleware.isAuthenticated, reviewsController.getAllReviews)
+router.post("/reviews", authMiddleware.isAuthenticated, reviewsController.reportReview)
 
 
 // COMMENT ROUTES
@@ -39,6 +40,8 @@ router.post("/reviews/:reviewId/comments", authMiddleware.isAuthenticated, comme
 router.delete("/comments/:id", authMiddleware.isAuthenticated, commentsController.deleteComment)
 router.patch("/comments/:id", authMiddleware.isAuthenticated, commentsController.updateComment)
 router.get("/reviews/:reviewId/comments", authMiddleware.isAuthenticated, commentsController.getCommentsByReviewId)
+router.post("/comments/:id/report", authMiddleware.isAuthenticated, commentsController.reportComment)
+
 
 
 

@@ -10,24 +10,31 @@ const commentSchema = new mongoose.Schema(
 		author: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
-			required: true,
+			required: [true, REQUIRED_FIELD]
 		},
 		review: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Review',
-			required: true,
+			required: [true, REQUIRED_FIELD]
 		},
 
 		content: {
 			type: String,
-			minlength: 50,
-			maxlength: 300,
+			minlength: [50, INVALID_LENGTH],
+			maxlength: [300, INVALID_LENGTH],
+			required: [true, REQUIRED_FIELD]
+
 		},
 
 		active: {
 			type: Boolean,
 			default: true,
 		},
+
+		reports: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+		}
 	},
 	{
 		timestamps: true,

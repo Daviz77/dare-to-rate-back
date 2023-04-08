@@ -35,3 +35,21 @@ module.exports.updateComment = (req, res, next) => {
 		.then((review) => res.status(StatusCodes.OK).json(review))
 		.catch(next)
 }
+
+module.exports.reportComment = (req, res, next) => {
+
+	const {id} = req.params
+	const {userId} = req.body
+
+	Comment.findById(id)
+		.then((comment) => {
+			if (comment.reports.includes(userId)) {
+				return res.status(StatusCodes.OK).json({message: "You already reported this comment"})
+			} else {
+				comment.reports.push(userId)
+				comment.save()
+				return res.status(StatusCodes.OK).json({message: "Comment reported"})
+			}
+		})
+		.catch(next)
+}
