@@ -41,6 +41,16 @@ router.patch(
 	authMiddleware.isAuthenticated,
 	usersController.updateUserRole
 )
+router.post(
+	"/users/:id/follow",
+	authMiddleware.isAuthenticated,
+	usersController.followUser
+)
+router.get(
+	"/users/:userId/following",
+	authMiddleware.isAuthenticated,
+	usersController.getFollowing
+)
 
 // REVIEW ROUTES
 
