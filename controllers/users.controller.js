@@ -29,7 +29,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 		.populate("comments")
 		.then((user) => {
 			if (!user) {
-				next(createError(StatusCodes.NOT_FOUND, "User not found"))
+				return (createError(StatusCodes.NOT_FOUND, "User not found"))
 			} else {
 				res.json(user)
 			}
@@ -43,7 +43,7 @@ module.exports.getUserByUsername = (req, res, next) => {
 		.populate("reviews")
 		.then((err, user) => {
 			if (err) return next(err)
-			if (!user) next(createError(StatusCodes.NOT_FOUND, "User not found"))
+			if (!user) return (createError(StatusCodes.NOT_FOUND, "User not found"))
 			return res.json(user)
 		})
 		.catch(next)
@@ -55,7 +55,7 @@ module.exports.getUserReviewsByUsername = (req, res, next) => {
 		.populate("reviews")
 		.then((err, user) => {
 			if (err) return next(err)
-			if (!user) return res.status(404).json({ message: "User not found" })
+			if (!user) (createError(StatusCodes.NOT_FOUND, "User not found"))
 			return res.json(user.reviews)
 		})
 		.catch(next)
@@ -72,6 +72,19 @@ module.exports.updateUser = (req, res, next) => {
 		.then((err, updatedUser) => {
 			if (err) return next(err)
 			return res.json(updatedUser)
+		})
+		.catch(next)
+}
+
+module.exports.updateUserRole = (req, res, next) => {
+	const { id } = req.params
+	const { type } = req.body
+	User.findByIdAndUpdate(id, { type }, { new: true })
+		.then((user) => {
+			if (!user) {
+				return (createError(StatusCodes.NOT_FOUND, "User not found"))
+			}
+			res.status(200).json(user)
 		})
 		.catch(next)
 }
