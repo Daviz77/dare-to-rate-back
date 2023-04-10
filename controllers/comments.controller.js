@@ -2,9 +2,9 @@ const { StatusCodes } = require("http-status-codes")
 const Comment = require("../models/Comment.model")
 
 module.exports.create = (req, res, next) => {
-	const { reviewId } = req.params
+	const { id } = req.params
 	const { userId, content } = req.body
-	Comment.create({ user: userId, review: reviewId, content })
+	Comment.create({ user: userId, review: id, content })
 	Comment.save()
 		.then((commentCreated) => {
 			res.status(StatusCodes.CREATED).json(commentCreated)
@@ -20,8 +20,8 @@ module.exports.deleteComment = (req, res, next) => {
 }
 
 module.exports.getCommentsByReviewId = (req, res, next) => {
-  const { reviewId } = req.params;
-  Comment.find({ review: reviewId })
+  const { id } = req.params;
+  Comment.find({ review: id })
     .populate('user', 'username')
 		.populate('review')
     .then((comments) => res.json(comments))

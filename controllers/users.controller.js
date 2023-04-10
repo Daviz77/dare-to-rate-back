@@ -104,8 +104,8 @@ module.exports.followUser = (req, res, next) => {
 }
 
 module.exports.getFollowing = (req, res, next) => {
-	const { userId } = req.params
-	User.findById(userId)
+	const { id } = req.params
+	User.findById(id)
 		.populate("following", "username img")
 		.select("following")
 		.then((user) => {

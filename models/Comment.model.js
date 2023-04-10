@@ -29,11 +29,6 @@ const commentSchema = new mongoose.Schema(
 		active: {
 			type: Boolean,
 			default: true,
-		},
-
-		reports: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
 		}
 	},
 	{
