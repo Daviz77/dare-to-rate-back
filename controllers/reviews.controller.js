@@ -1,10 +1,11 @@
 const { StatusCodes } = require("http-status-codes")
 const Review = require("../models/Review.model")
+const User = require("../models/User.model")
 
 module.exports.create = (req, res, next) => {
-	const owner = req.currentUserId
+	const author = req.currentUserId
 	const { content, like } = req.body
-	Review.create({ content, like, owner })
+	Review.create({ content, like, author })
 		.then((reviewCreated) => {
 			res.status(StatusCodes.CREATED).json(reviewCreated)
 		})
@@ -12,7 +13,13 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.getAllReviews = (req, res, next) => {
-	Review.find()
+	let filterReviews
+	if (req.isAuthenticated()) {
+		filterReviews = { user: { $in: req.user.following } }
+	} else {
+		filterReviews = {}
+	}
+	Review.find(filterReviews)
 		.populate("user", "username")
 		.then((reviews) => res.json(reviews))
 		.catch(next)
@@ -30,24 +37,5 @@ module.exports.deleteReview = (req, res, next) => {
 	const { id } = req.params
 	Review.findByIdAndDelete(id)
 		.then(() => res.status(StatusCodes.OK))
-		.catch(next)
-}
-
-module.exports.reportReview = (req, res, next) => {
-	const { id } = req.params
-	const { userId } = req.body
-
-	Review.findById(id)
-		.then((review) => {
-			if (review.reports.includes(userId)) {
-				return res
-					.status(StatusCodes.OK)
-					.json({ message: "You already reported this review" })
-			} else {
-				review.reports.push(userId)
-				review.save()
-				return res.status(StatusCodes.OK).json({ message: "Review reported" })
-			}
-		})
 		.catch(next)
 }
