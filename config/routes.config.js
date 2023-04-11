@@ -79,13 +79,13 @@ router.get(
 	reportsController.getAllReports
 )
 router.post(
-	"/reviews/:id/report",
+	"/reviews/:reviewId/report",
 	authMiddleware.isAuthenticated,
 	reportsController.createReviewReport
 )
 
 router.post(
-	"/comments/:id/report",
+	"/comments/:commentId/report",
 	authMiddleware.isAuthenticated,
 	reportsController.createCommentReport
 )
