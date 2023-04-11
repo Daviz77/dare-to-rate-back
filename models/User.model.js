@@ -57,18 +57,24 @@ const userSchema = new mongoose.Schema(
 				ref: "User",
 			},
 		],
+		followers: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
 
 		active: {
 			type: Boolean,
 			default: true,
-		},
+		}
 	},
 	{
 		timestamps: true,
 	}
 )
 
-userSchema.virtual("reviews", {
+/* userSchema.virtual("reviews", {
 	ref: "Review",
 	foreignField: "author",
 	localField: "_id",
@@ -80,7 +86,7 @@ userSchema.virtual("comments", {
 	foreignField: "author",
 	localField: "_id",
 	justOne: false,
-})
+}) */
 
 userSchema.pre("save", function (next) {
 	const rawPassword = this.password

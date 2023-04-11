@@ -22,24 +22,17 @@ module.exports.list = (req, res, next) => {
 		.catch(next)
 }
 
-// User profile con sus reviews y sus comentarios
-module.exports.getCurrentUser = (req, res, next) => {
+module.exports.getCurrentUserProfile = (req, res, next) => {
 	User.findById(req.currentUserId)
-		.populate("reviews")
-		.populate("comments")
 		.then((user) => {
-			if (!user) {
-				return createError(StatusCodes.NOT_FOUND, "User not found")
-			} else {
-				res.json(user)
-			}
+			res.json(user)
 		})
 		.catch(next)
 }
 
-module.exports.getUserByUsername = (req, res, next) => {
-	const { username } = req.params
-	User.findOne({ username })
+module.exports.getUserById = (req, res, next) => {
+	const { userId } = req.params
+	User.findById(userId)
 		.populate("reviews")
 		.then((err, user) => {
 			if (err) return next(err)
@@ -56,6 +49,7 @@ module.exports.updateLogedUser = (req, res, next) => {
 		img,
 		about,
 		new: true,
+		runValidators: true,
 	})
 		.then((updatedUser) => {
 			return res.json(updatedUser)
@@ -79,31 +73,60 @@ module.exports.updateUserRole = (req, res, next) => {
 module.exports.followUser = (req, res, next) => {
 	const { userId } = req.params
 	User.findByIdAndUpdate(
-		req.currentUserId,
-		{ $push: { following: userId } },
+		userId,
+		{ $push: { followers: req.currentUserId } },
 		{ new: true }
 	)
 		.then((user) => {
 			if (!user) {
 				return createError(StatusCodes.NOT_FOUND, "User not found")
 			} else {
-				res.status(200).json(user)
+				User.findByIdAndUpdate(
+					req.currentUserId,
+					{ $push: { following: userId } },
+					{ new: true }
+				)
+					.then((user) => {
+						if (!user) {
+							return createError(StatusCodes.NOT_FOUND, "User not found")
+						} else {
+							res.status(200).json(user)
+						}
+					})
+					.catch(next)
 			}
 		})
 		.catch(next)
 }
 
 module.exports.getFollowing = (req, res, next) => {
-	const { id } = req.params
-	User.findById(id)
+	const { userId } = req.params
+	User.findById(userId)
 		.populate("following", "username img ")
 		.select("following")
 		.then((user) => {
 			if (!user) {
 				return createError(StatusCodes.NOT_FOUND, "User not found")
 			} else {
-				res.status(200).json({
+				res.json({
 					following: user.following,
+				})
+			}
+		})
+		.catch(next)
+}
+
+module.exports.getFollowers = (req, res, next) => {
+	const { userId } = req.params
+	User.findById(userId)
+		.populate("followers")
+		.select("followers")
+		.then((user) => {
+			if (!user) {
+				return createError(StatusCodes.NOT_FOUND, "User not found")
+			} else {
+				res.json({
+					followers: user.followers,
 				})
 			}
 		})

@@ -22,22 +22,18 @@ router.post("/signup", usersController.create)
 
 // USER ROUTES
 
-router.post("/users", usersController.create)
-
-router.get("/:username", usersController.getUserByUsername) // obtener perfil de un usuario en concreto
-// obtener las reseñas publicadas por un ususario concreto
-// router.get("/users", usersController.list)
+router.get("/users/:userId", usersController.getUserById)
 
 router.get(
 	"/profile",
 	authMiddleware.isAuthenticated,
-	usersController.getCurrentUser
+	usersController.getCurrentUserProfile
 )
 router.patch(
 	"/users",
 	authMiddleware.isAuthenticated,
 	usersController.updateLogedUser
-) // ver y updatear el profile de mi usuario
+)
 
 router.patch(
 	"/users/:userId/change-role",
@@ -50,11 +46,8 @@ router.post(
 	authMiddleware.isAuthenticated,
 	usersController.followUser
 )
-router.get("/users/:id/following", usersController.getFollowing)
-/* router.get(
-	"/users/:id/followed",
-	usersController.getFolled
-) */
+router.get("/users/:userId/following", usersController.getFollowing)
+router.get("/users/:userId/followers",	usersController.getFollowers)
 
 // REVIEW ROUTES
 
@@ -75,7 +68,7 @@ router.delete(
 )
 router.get("/reviews/:userId", reviewsController.getUsersReviews)
 
-router.get("/reviews", reviewsController.getAllReviews) // esto para que?
+router.get("/reviews", reviewsController.getAllReviews) // Para sacar las 10 últimas reviews de tus following en el feed
 
 // REPORT ROUTES
 

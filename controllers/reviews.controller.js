@@ -21,6 +21,7 @@ module.exports.getAllReviews = (req, res, next) => {
 		filterReviews = {}
 	}
 	Review.find(filterReviews)
+		.limit(10)
 		.populate("user", "username")
 		.then((reviews) => res.json(reviews))
 		.catch(next)
@@ -41,11 +42,8 @@ module.exports.updateReview = (req, res, next) => {
 
 	Review.findById(id)
 		.then((review) => {
-			console.log(review.author._id + '');
-			console.log(req.currentUserId);
-
 			if (review.author._id + '' === req.currentUserId) {
-				return Review.findByIdAndUpdate(id, { title, content, likes }, { new: true })
+				return Review.findByIdAndUpdate(id, { title, content, likes }, { new: true, runValidators: true })
 					.then((review) => res.status(StatusCodes.OK).json(review))
 					.catch(next)
 			}
