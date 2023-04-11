@@ -49,16 +49,15 @@ module.exports.getUserByUsername = (req, res, next) => {
 		.catch(next)
 }
 
-module.exports.updateUser = (req, res, next) => {
-	const { username } = req.body
-	const { user } = req
-	User.findOneAndUpdate(
-		{ username: user.username },
-		{ username },
-		{ new: true }
-	)
-		.then((err, updatedUser) => {
-			if (err) return next(err)
+module.exports.updateLogedUser = (req, res, next) => {
+	const { username, img, about } = req.body
+	User.findByIdAndUpdate(req.currentUserId, {
+		username,
+		img,
+		about,
+		new: true,
+	})
+		.then((updatedUser) => {
 			return res.json(updatedUser)
 		})
 		.catch(next)
@@ -79,7 +78,11 @@ module.exports.updateUserRole = (req, res, next) => {
 
 module.exports.followUser = (req, res, next) => {
 	const { userId } = req.params
-	User.findByIdAndUpdate(req.currentUserId, { $push: { following: userId } }, { new: true })
+	User.findByIdAndUpdate(
+		req.currentUserId,
+		{ $push: { following: userId } },
+		{ new: true }
+	)
 		.then((user) => {
 			if (!user) {
 				return createError(StatusCodes.NOT_FOUND, "User not found")
@@ -98,7 +101,7 @@ module.exports.getFollowing = (req, res, next) => {
 		.then((user) => {
 			if (!user) {
 				return createError(StatusCodes.NOT_FOUND, "User not found")
-			}else {
+			} else {
 				res.status(200).json({
 					following: user.following,
 				})
@@ -108,18 +111,13 @@ module.exports.getFollowing = (req, res, next) => {
 }
 
 module.exports.changeUserRole = (req, res, next) => {
-  const { userId } = req.params;
-  User.findByIdAndUpdate(
-    userId,
-    { type: "admin" },
-    { new: true }
-  )
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      res.json(user);
-    })
-    .catch(next);
-};
-
+	const { userId } = req.params
+	User.findByIdAndUpdate(userId, { type: "admin" }, { new: true })
+		.then((user) => {
+			if (!user) {
+				return res.status(404).json({ message: "User not found" })
+			}
+			res.json(user)
+		})
+		.catch(next)
+}

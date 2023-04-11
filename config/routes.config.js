@@ -34,9 +34,9 @@ router.get(
 	usersController.getCurrentUser
 )
 router.patch(
-	"/profile",
+	"/users",
 	authMiddleware.isAuthenticated,
-	usersController.updateUser
+	usersController.updateLogedUser
 ) // ver y updatear el profile de mi usuario
 
 router.patch(
@@ -82,7 +82,7 @@ router.get("/reviews", reviewsController.getAllReviews) // esto para que?
 router.get(
 	"/reports",
 	authMiddleware.isAuthenticated,
-	// middleware revisando que el usuario logeado es admin
+	adminMiddleware.isAdmin,
 	reportsController.getAllReports
 )
 router.post(
