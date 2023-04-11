@@ -15,12 +15,12 @@ const upload = require("../config/storage.config")
 
 router.get("/health", healthController.health)
 
-// AUTHENTICATION
+// AUTHENTICATION	V
 
 router.post("/login", authController.login)
 router.post("/signup", usersController.create)
 
-// USER ROUTES
+// USER ROUTES V
 
 router.get("/users/:userId", usersController.getUserById)
 
@@ -49,7 +49,7 @@ router.post(
 router.get("/users/:userId/following", usersController.getFollowing)
 router.get("/users/:userId/followers",	usersController.getFollowers)
 
-// REVIEW ROUTES
+// REVIEW ROUTES V
 
 router.post(
 	"/reviews",
@@ -90,20 +90,20 @@ router.post(
 	reportsController.createCommentReport
 )
 
-// COMMENT ROUTES
+// COMMENT ROUTES V
 
 router.post(
-	"/reviews/:id/comments",
+	"/reviews/:reviewId/comments",
 	authMiddleware.isAuthenticated,
 	commentsController.create
 )
 router.delete(
-	"/comments/:id",
+	"/comments/:commentId",
 	authMiddleware.isAuthenticated,
 	commentsController.deleteComment
 )
 router.patch(
-	"/comments/:id",
+	"/comments/:commentId/update",
 	authMiddleware.isAuthenticated,
 	commentsController.updateComment
 )

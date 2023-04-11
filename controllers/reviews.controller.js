@@ -5,8 +5,8 @@ const createError = require("http-errors")
 
 module.exports.create = (req, res, next) => {
 	const author = req.currentUserId
-	const { content, like, title } = req.body
-	Review.create({ content, like, author, title })
+	const { content, like, title, reviewId} = req.body
+	Review.create({ content, like, author, title, reviewId })
 		.then((reviewCreated) => {
 			res.status(StatusCodes.CREATED).json(reviewCreated)
 		})
