@@ -7,7 +7,8 @@ const authController = require("../controllers/auth.controller")
 const reviewsController = require("../controllers/reviews.controller")
 const commentsController = require("../controllers/comments.controller")
 const reportsController = require("../controllers/reports.controller")
-const authMiddleware = require("../middlewares/Auth.middlewares")
+const authMiddleware = require("../middlewares/Auth.middleware")
+const adminMiddleware = require("../middlewares/Admin.middleware")
 const upload = require("../config/storage.config")
 
 // HEALTH CHECK
@@ -23,20 +24,15 @@ router.post("/signup", usersController.create)
 
 router.post("/users", usersController.create)
 
-router.get(
-	"/:username",
-	usersController.getUserByUsername
-) // obtener perfil de un usuario en concreto
-router.get(
-	"/:username/reviews",
-	usersController.getUserReviewsByUsername
-) // obtener las reseñas publicadas por un ususario concreto
+router.get("/:username", usersController.getUserByUsername) // obtener perfil de un usuario en concreto
+// obtener las reseñas publicadas por un ususario concreto
 // router.get("/users", usersController.list)
+
 router.get(
 	"/profile",
 	authMiddleware.isAuthenticated,
 	usersController.getCurrentUser
-) 
+)
 router.patch(
 	"/profile",
 	authMiddleware.isAuthenticated,
@@ -48,15 +44,18 @@ router.patch(
 	// middleware para revisar que el role es admin
 	usersController.updateUserRole
 )
+router.patch(
+	"/users/:userId/change-role",
+	authMiddleware.isAuthenticated,
+	adminMiddleware.isAdmin,
+	usersController.changeUserRole
+)
 router.post(
-	"/users/:id/follow",
+	"/users/:userId/follow",
 	authMiddleware.isAuthenticated,
 	usersController.followUser
 )
-router.get(
-	"/users/:id/following",
-	usersController.getFollowing
-)
+router.get("/users/:id/following", usersController.getFollowing)
 /* router.get(
 	"/users/:id/followed",
 	usersController.getFolled
@@ -79,9 +78,12 @@ router.delete(
 	authMiddleware.isAuthenticated,
 	reviewsController.deleteReview
 )
+router.get("/reviews", reviewsController.getAllReviews)
+router.get("/reviews/:userId", reviewsController.getUsersReviews)
 router.get(
-	"/reviews",
-	reviewsController.getAllReviews
+	"/reviews/me",
+	authMiddleware.isAuthenticated,
+	reviewsController.getLogedUserReviews
 )
 
 // REPORT ROUTES
@@ -121,9 +123,6 @@ router.patch(
 	authMiddleware.isAuthenticated,
 	commentsController.updateComment
 )
-router.get(
-	"/reviews/:id/comments",
-	commentsController.getCommentsByReviewId
-)
+router.get("/reviews/:id/comments", commentsController.getCommentsByReviewId)
 
 module.exports = router

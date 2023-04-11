@@ -4,8 +4,8 @@ const User = require("../models/User.model")
 
 module.exports.create = (req, res, next) => {
 	const author = req.currentUserId
-	const { content, like } = req.body
-	Review.create({ content, like, author })
+	const { content, like, title } = req.body
+	Review.create({ content, like, author, title })
 		.then((reviewCreated) => {
 			res.status(StatusCodes.CREATED).json(reviewCreated)
 		})
@@ -22,6 +22,23 @@ module.exports.getAllReviews = (req, res, next) => {
 	Review.find(filterReviews)
 		.populate("user", "username")
 		.then((reviews) => res.json(reviews))
+		.catch(next)
+}
+
+module.exports.getLogedUserReviews = (req, res, next) => {
+	Review.find({ author: req.currentUserId })
+		.then((reviews) => {
+			return res.json(reviews)
+		})
+		.catch(next)
+}
+
+module.exports.getUsersReviews = (req, res, next) => {
+	const { userId } = req.params;
+	Review.find({ author: userId })
+		.then((reviews) => {
+			return res.json(reviews)
+		})
 		.catch(next)
 }
 

@@ -49,18 +49,6 @@ module.exports.getUserByUsername = (req, res, next) => {
 		.catch(next)
 }
 
-module.exports.getUserReviewsByUsername = (req, res, next) => {
-	const { username } = req.params
-	User.findOne({ username })
-		.populate("reviews")
-		.then((err, user) => {
-			if (err) return next(err)
-			if (!user) createError(StatusCodes.NOT_FOUND, "User not found")
-			return res.json(user.reviews)
-		})
-		.catch(next)
-}
-
 module.exports.updateUser = (req, res, next) => {
 	const { username } = req.body
 	const { user } = req
@@ -90,9 +78,8 @@ module.exports.updateUserRole = (req, res, next) => {
 }
 
 module.exports.followUser = (req, res, next) => {
-	const { id } = req.params
-	const { userId } = req.body
-	User.findByIdAndUpdate(id, { $push: { following: userId } }, { new: true })
+	const { userId } = req.params
+	User.findByIdAndUpdate(req.currentUserId, { $push: { following: userId } }, { new: true })
 		.then((user) => {
 			if (!user) {
 				return createError(StatusCodes.NOT_FOUND, "User not found")
@@ -106,17 +93,33 @@ module.exports.followUser = (req, res, next) => {
 module.exports.getFollowing = (req, res, next) => {
 	const { id } = req.params
 	User.findById(id)
-		.populate("following", "username img")
+		.populate("following", "username img ")
 		.select("following")
 		.then((user) => {
 			if (!user) {
 				return createError(StatusCodes.NOT_FOUND, "User not found")
 			}else {
 				res.status(200).json({
-					message: "Following list retrieved successfully",
 					following: user.following,
 				})
 			}
 		})
 		.catch(next)
 }
+
+module.exports.changeUserRole = (req, res, next) => {
+  const { userId } = req.params;
+  User.findByIdAndUpdate(
+    userId,
+    { type: "admin" },
+    { new: true }
+  )
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    })
+    .catch(next);
+};
+
