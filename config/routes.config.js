@@ -38,12 +38,7 @@ router.patch(
 	authMiddleware.isAuthenticated,
 	usersController.updateUser
 ) // ver y updatear el profile de mi usuario
-router.patch(
-	"/users/:id/role",
-	authMiddleware.isAuthenticated,
-	// middleware para revisar que el role es admin
-	usersController.updateUserRole
-)
+
 router.patch(
 	"/users/:userId/change-role",
 	authMiddleware.isAuthenticated,
@@ -78,13 +73,9 @@ router.delete(
 	authMiddleware.isAuthenticated,
 	reviewsController.deleteReview
 )
-router.get("/reviews", reviewsController.getAllReviews)
 router.get("/reviews/:userId", reviewsController.getUsersReviews)
-router.get(
-	"/reviews/me",
-	authMiddleware.isAuthenticated,
-	reviewsController.getLogedUserReviews
-)
+
+router.get("/reviews", reviewsController.getAllReviews) // esto para que?
 
 // REPORT ROUTES
 

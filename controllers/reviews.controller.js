@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes")
 const Review = require("../models/Review.model")
-const User = require("../models/User.model")
+const createError = require("http-errors")
+
 
 module.exports.create = (req, res, next) => {
 	const author = req.currentUserId
@@ -25,16 +26,8 @@ module.exports.getAllReviews = (req, res, next) => {
 		.catch(next)
 }
 
-module.exports.getLogedUserReviews = (req, res, next) => {
-	Review.find({ author: req.currentUserId })
-		.then((reviews) => {
-			return res.json(reviews)
-		})
-		.catch(next)
-}
-
 module.exports.getUsersReviews = (req, res, next) => {
-	const { userId } = req.params;
+	const { userId } = req.params
 	Review.find({ author: userId })
 		.then((reviews) => {
 			return res.json(reviews)
@@ -45,8 +38,20 @@ module.exports.getUsersReviews = (req, res, next) => {
 module.exports.updateReview = (req, res, next) => {
 	const { id } = req.params
 	const { title, content, likes } = req.body
-	Review.findByIdAndUpdate(id, { title, content, likes }, { new: true })
-		.then((review) => res.status(StatusCodes.OK).json(review))
+
+	Review.findById(id)
+		.then((review) => {
+			console.log(review.author._id + '');
+			console.log(req.currentUserId);
+
+			if (review.author._id + '' === req.currentUserId) {
+				return Review.findByIdAndUpdate(id, { title, content, likes }, { new: true })
+					.then((review) => res.status(StatusCodes.OK).json(review))
+					.catch(next)
+			}
+
+			throw createError(StatusCodes.UNAUTHORIZED, "You are not the author of this review")
+		})
 		.catch(next)
 }
 
