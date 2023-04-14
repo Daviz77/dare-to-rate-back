@@ -74,20 +74,6 @@ const userSchema = new mongoose.Schema(
 	}
 )
 
-/* userSchema.virtual("reviews", {
-	ref: "Review",
-	foreignField: "author",
-	localField: "_id",
-	justOne: false,
-})
-
-userSchema.virtual("comments", {
-	ref: "Comment",
-	foreignField: "author",
-	localField: "_id",
-	justOne: false,
-}) */
-
 userSchema.pre("save", function (next) {
 	const rawPassword = this.password
 	if (this.isModified("password")) {

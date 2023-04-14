@@ -41,3 +41,27 @@ module.exports.isAuthenticated = (req, res, next) => {
 		next()
 	})
 }
+
+module.exports.setCurrentUserIdIfExists = (req, res, next) => {
+	const authorization = req.header("Authorization")
+
+	if (!authorization) {
+		return next()
+	}
+
+	const [schema, token] = authorization.split(" ")
+
+	if (schema !== "Bearer" || !token) {
+		return next()
+	}
+
+	const secret = process.env.JWT_SECRET || "test"
+	jwt.verify(token, secret, (err, decodedToken) => {
+		if (err) {
+			return next()
+		}
+
+		req.currentUserId = decodedToken.id
+		next()
+	})
+}

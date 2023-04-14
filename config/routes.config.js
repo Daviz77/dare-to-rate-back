@@ -68,7 +68,7 @@ router.delete(
 )
 router.get("/reviews/:userId", reviewsController.getUsersReviews)
 
-router.get("/reviews", reviewsController.getAllReviews) // Para sacar las 10 últimas reviews de tus following en el feed
+router.get("/reviews", authMiddleware.setCurrentUserIdIfExists, reviewsController.getAllReviews) // Para sacar las 10 últimas reviews de tus following en el feed
 
 // REPORT ROUTES
 
