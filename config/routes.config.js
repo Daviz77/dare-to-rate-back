@@ -18,7 +18,7 @@ router.get("/health", healthController.health)
 // AUTHENTICATION	V
 
 router.post("/login", authController.login)
-router.post("/signup", usersController.create)
+router.post("/signup", upload.single("img"), usersController.create)
 
 // USER ROUTES V
 

@@ -43,6 +43,9 @@ module.exports.getUserById = (req, res, next) => {
 }
 
 module.exports.updateLogedUser = (req, res, next) => {
+	if (req.file) {
+		req.body.img = req.file.path
+	}
 	const { username, img, about } = req.body
 	User.findByIdAndUpdate(req.currentUserId, {
 		username,
