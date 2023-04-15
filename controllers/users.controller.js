@@ -47,6 +47,15 @@ module.exports.updateLogedUser = (req, res, next) => {
 		req.body.img = req.file.path
 	}
 	const { username, img, about } = req.body
+	if (!username) {
+		const error = {
+			message: "Username is required",
+			errors: {
+				username: "Username is required",
+			}
+		}
+		return next(createError(StatusCodes.BAD_REQUEST, error))
+	}
 	User.findByIdAndUpdate(req.currentUserId, {
 		username,
 		img,

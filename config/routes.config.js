@@ -32,6 +32,7 @@ router.get(
 router.patch(
 	"/users",
 	authMiddleware.isAuthenticated,
+	upload.single("img"),
 	usersController.updateLogedUser
 )
 
