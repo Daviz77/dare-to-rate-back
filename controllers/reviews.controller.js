@@ -83,13 +83,13 @@ module.exports.updateReview = (req, res, next) => {
 
 	Review.findById(reviewId)
 		.then((review) => {
-			if (review.author._id + '' === req.currentUserId) {
-				return Review.findByIdAndUpdate(id, { title, content, likes }, { new: true, runValidators: true })
+			if (review.author._id.toString() === req.currentUserId) {
+				return Review.findByIdAndUpdate(id, { title, content }, { new: true, runValidators: true })
 					.then((review) => res.status(StatusCodes.OK).json({ data: review }))
 					.catch(next)
 			}
 
-			return next(createError(StatusCodes.UNAUTHORIZED, 'You are not the author of this review'))
+			return next(createError(StatusCodes.UNAUTHORIZED, 'User is not the author of this review'))
 		})
 		.catch(next)
 }
@@ -104,6 +104,24 @@ module.exports.deleteReview = (req, res, next) => {
 				return next(createError(StatusCodes.UNAUTHORIZED, 'User are not the author of this review'))
 
 			review.deleteOne()
+			return res.status(StatusCodes.OK).send()
+		})
+		.catch(next)
+}
+
+module.exports.likeReview = (req, res, next) => {
+	const { reviewId } = req.params
+
+	Review.findById(reviewId)
+		.then((review) => {
+			if (!review) return next(createError(StatusCodes.NOT_FOUND, 'Review not found'))
+			if (review.likes.includes(req.currentUserId)) {
+				review.likes.pull(req.currentUserId)
+			} else {
+				review.likes.push(req.currentUserId)
+			}
+
+			review.save()
 			return res.status(StatusCodes.OK).send()
 		})
 		.catch(next)
