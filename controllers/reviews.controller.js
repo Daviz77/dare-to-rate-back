@@ -45,8 +45,18 @@ module.exports.getAllReviews = (req, res, next) => {
 
 	if (req.currentUserId) {
 		return User.findById(req.currentUserId)
-			.then((user) =>
-				Review.find({ author: { $in: user.followings } })
+			.then((user) => {
+				if (!user) return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
+				if (!user.followings.length) {
+					return Review.find()
+						.limit(reviewsLimit)
+						.sort({ createdAt: -1 })
+						.populate('author', 'username img')
+						.then((otherReviews) => res.json({ data: { otherReviews } }))
+						.catch(next)
+				}
+
+				return Review.find({ author: { $in: user.followings } })
 					.limit(reviewsLimit)
 					.sort({ createdAt: -1 })
 					.populate('author', 'username img')
@@ -58,7 +68,7 @@ module.exports.getAllReviews = (req, res, next) => {
 							.then((otherReviews) => res.json({ data: { followedReviews, otherReviews } }))
 					)
 					.catch(next)
-			)
+			})
 			.catch(next)
 	}
 
