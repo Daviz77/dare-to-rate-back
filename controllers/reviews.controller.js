@@ -52,7 +52,7 @@ module.exports.getAllReviews = (req, res, next) => {
 						.limit(reviewsLimit)
 						.sort({ createdAt: -1 })
 						.populate('author', 'username img')
-						.then((otherReviews) => res.json({ data: { otherReviews } }))
+						.then((otherReviews) => res.json({ data: { followedReviews: [], otherReviews } }))
 						.catch(next)
 				}
 
