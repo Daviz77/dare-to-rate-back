@@ -1,8 +1,10 @@
+const axios = require('axios')
 const { StatusCodes } = require('http-status-codes')
 const Review = require('../models/Review.model')
 const Film = require('../models/Film.model')
 const createError = require('http-errors')
 const User = require('../models/User.model')
+const { createFilmResponseFromImdbApi } = require('./films.controller')
 
 module.exports.create = (req, res, next) => {
 	const author = req.currentUserId
@@ -13,10 +15,12 @@ module.exports.create = (req, res, next) => {
 	}
 
 	if (!film._id) {
-		return Film.findOne({ imdbId: film.imdbId }).then((filmRes) => {
+		return Film.findOne({ imdbId: film.imdbId }).then(filmRes => {
 			if (!filmRes) {
-				return Film.create(film)
-					.then((filmCreated) => createReview({ ...review, author, film: filmCreated._id }, res, next))
+				return axios.get(process.env.OMDB_API_HOST, { params: { apiKey: process.env.OMDB_API_KEY, plot: 'full', i: film.imdbId  } })
+					.then(imdbResponse => Film.create(createFilmResponseFromImdbApi(imdbResponse.data))
+						.then(filmCreated => createReview({ ...review, author, film: filmCreated._id }, res, next))
+						.catch(next))
 					.catch(next)
 			}
 

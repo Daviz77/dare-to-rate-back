@@ -23,7 +23,7 @@ module.exports.getUserById = (req, res, next) => {
 	User.findById(userId)
 		.lean()
 		.then(user => {
-			if (!user) return createError(StatusCodes.NOT_FOUND, 'User not found')
+			if (!user) return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
 			return Review.find({ author: user._id })
 				.then(reviews => res.json({ data: { ...user, reviews }}))
 		})
@@ -46,9 +46,9 @@ module.exports.followUser = (req, res, next) => {
 	)
 		.then((user) => {
 			if (!user) {
-				return createError(StatusCodes.NOT_FOUND, 'User not found')
+				return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
 			} else {
-				res.status(StatusCodes.NO_CONTENT).send()
+				return res.status(StatusCodes.NO_CONTENT).send()
 			}
 		})
 		.catch(next)
@@ -59,7 +59,10 @@ module.exports.getFollowings = (req, res, next) => {
 	User.findById(userId)
 		.populate('followings')
 		.select('followings')
-		.then((user) => res.json({ data: user.followings }))
+		.then((user) => {
+			if (!user) return next(createError(StatusCodes.BAD_REQUEST, 'User not found'))
+			return res.json({ data: user.followings })
+		})
 		.catch(next)
 }
 

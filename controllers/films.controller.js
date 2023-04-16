@@ -28,7 +28,7 @@ module.exports.getFilmById = (req, res, next) => {
 	Film.findById(filmId)
 		.lean()
 		.then(film => {
-			if (!film) return createError(StatusCodes.NOT_FOUND, 'Film not found')
+			if (!film) return next(createError(StatusCodes.NOT_FOUND, 'Film not found'))
 			return calcRating(film, res, next)
 		})
 		.catch(next)
@@ -44,7 +44,7 @@ const calcRating = (film, res, next)  =>
 		})
 		.catch(next)
 
-const createFilmResponseFromImdbApi = film => {
+module.exports.createFilmResponseFromImdbApi = film => {
 	return {
 		title: film.Title,
 		plot: film.Plot,
@@ -56,7 +56,6 @@ const createFilmResponseFromImdbApi = film => {
 		runtime: film.Runtime,
 		country: film.Country,
 		poster: film.Poster,
-		imdbId: film.imdbID,
-		rating: film.imdbRating
+		imdbId: film.imdbID
 	}
 }
