@@ -2,13 +2,13 @@ const mongoose = require("mongoose")
 const {
 	REQUIRED_FIELD,
 	INVALID_LENGTH,
-} = require("../config/errorMessages")
+} = require('../config/errorMessages')
 
 const reportSchema = new mongoose.Schema(
 	{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
+			ref: 'User',
 			required: [true, REQUIRED_FIELD],
 		},
 		review: {
@@ -29,12 +29,11 @@ const reportSchema = new mongoose.Schema(
 			default: true,			
 		}
 	},
-
 	{
 		timestamps: true,
 	}
 )
 
-const Report = mongoose.model("Report", reportSchema)
+const Report = mongoose.model('Report', reportSchema)
 
 module.exports = Report

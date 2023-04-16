@@ -17,9 +17,7 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: [true, REQUIRED_FIELD],
 			unique: true,
-			minlength: [3, INVALID_LENGTH],
 		},
-
 		email: {
 			type: String,
 			required: [true, REQUIRED_FIELD],
@@ -27,44 +25,31 @@ const userSchema = new mongoose.Schema(
 			lowercase: true,
 			match: [EMAIL_PATTERN, INVALID_EMAIL],
 		},
-
 		password: {
 			type: String,
 			required: [true, REQUIRED_FIELD],
 			minlength: [6, INVALID_LENGTH],
 		},
-
 		type: {
 			type: String,
-			enum: ["admin", "user"],
-			default: "user",
+			enum: ['ADMIN', 'USER'],
+			default: 'USER',
 		},
-
 		img: {
 			type: String,
-			default:
-				"https://cronicavasca.elespanol.com/uploads/s1/16/11/39/51/visita-san-mames.jpeg",
+			default: 'https://cronicavasca.elespanol.com/uploads/s1/16/11/39/51/visita-san-mames.jpeg',
 		},
-
 		about: {
 			type: String,
 			minlength: 50,
-			maxlength: 200,
+			maxlength: 1000,
 		},
-
-		following: [
+		followings: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "User",
+				ref: 'User',
 			},
 		],
-		followers: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "User",
-			},
-		],
-
 		active: {
 			type: Boolean,
 			default: true,
@@ -75,9 +60,9 @@ const userSchema = new mongoose.Schema(
 	}
 )
 
-userSchema.pre("save", function (next) {
+userSchema.pre('save', function (next) {
 	const rawPassword = this.password
-	if (this.isModified("password")) {
+	if (this.isModified('password')) {
 		bcryptjs
 			.hash(rawPassword, SALT_ROUNDS)
 			.then((hash) => {
@@ -94,6 +79,6 @@ userSchema.methods.checkPassword = function (passwordToCheck) {
 	return bcryptjs.compare(passwordToCheck, this.password)
 }
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model('User', userSchema)
 
 module.exports = User

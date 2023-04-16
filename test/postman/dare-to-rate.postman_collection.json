@@ -1,22 +1,50 @@
 {
 	"info": {
-		"_postman_id": "8cc409af-5b52-4a89-b02a-1581b6ae6a14",
+		"_postman_id": "5bf90b99-a934-49a5-8dcf-8400561b52fc",
 		"name": "dare-to-rate",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26674137"
+		"_exporter_id": "23191222"
 	},
 	"item": [
 		{
-			"name": "users",
+			"name": "auth",
 			"item": [
 				{
-					"name": "user create",
+					"name": "login",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"username\": \"Muni\",\n\"email\": \"muni@gmail.es\",\n\"password\": \"12345678\",\n\"about\": \"soy del athletic soy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athletic\"\n}",
+							"raw": "{\n    \"email\": \"test@gmail.es\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"username\": \"test\",\n\"email\": \"test@gmail.es\",\n\"password\": \"12345678\",\n\"about\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor id aliquet lectus proin nibh nisl condimentum. Egestas purus viverra accumsan in nisl nisi scelerisque. Tellus cras adipiscing enim eu turpis. Ornare massa eget egestas purus viverra accumsan in nisl.\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -36,114 +64,29 @@
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
 				{
-					"name": "user list",
+					"name": "user by id",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"username\": \"Muniain\",\n\"email\": \"muni@gmail.com\",\n\"password\": \"12345678\",\n\"about\": \"soy del athletic soy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athletic\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "go admin",
-					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQ2NDc5YWM5Zjg2MTU5MzA1OWJjZSIsImlhdCI6MTY4MTE1NTI1NSwiZXhwIjoxNjgxNDE0NDU1fQ.HfYCNdpUmlhOLrlQ_kgAfc5bntCGi9m_CJEKUKLUDk4",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/users/64346462ac9f861593059bcc/change-role",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"64346462ac9f861593059bcc",
-								"change-role"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get following",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTQwOTg3NCwiZXhwIjoxNjgxNjY5MDc0fQ.49yI_TvH9HAUsvL8cA5znIZAqVNnuUhw67tikj4GaYE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQ2NDYyYWM5Zjg2MTU5MzA1OWJjYyIsImlhdCI6MTY4MTIzMDk5NiwiZXhwIjoxNjgxNDkwMTk2fQ.wSPObyNSan87yzc8_OGLLofy-xNx9pocw9JYkJnMuak",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/users/64359428967f905826bf6556/following",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"64359428967f905826bf6556",
-								"following"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "follow user",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDI4OTY3ZjkwNTgyNmJmNjU1NiIsImlhdCI6MTY4MTIzMjk2NSwiZXhwIjoxNjgxNDkyMTY1fQ.lnZ30B1ryYoAlbYJNVq_9OK9D-9DBWSdYgARQ-woBus",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -155,7 +98,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/64359439967f905826bf6558/follow",
+							"raw": "http://localhost:8080/users/643a94db22c6c1c455165dae",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -163,53 +106,14 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"64359439967f905826bf6558",
-								"follow"
+								"643a94db22c6c1c455165dae"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update user",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQ2NDc5YWM5Zjg2MTU5MzA1OWJjZSIsImlhdCI6MTY4MTE1NTI1NSwiZXhwIjoxNjgxNDE0NDU1fQ.HfYCNdpUmlhOLrlQ_kgAfc5bntCGi9m_CJEKUKLUDk4",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"Toquegol\",\n    \"about\": \"soy del athletic soy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athleticsoy del athletic o quizá no\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Profile",
+					"name": "profile",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -219,7 +123,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQ2NDYyYWM5Zjg2MTU5MzA1OWJjYyIsImlhdCI6MTY4MTIzMDk5NiwiZXhwIjoxNjgxNDkwMTk2fQ.wSPObyNSan87yzc8_OGLLofy-xNx9pocw9JYkJnMuak",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2FhOGMyMDIzZjVlM2Q4N2E2MTJjNCIsImlhdCI6MTY4MTU2NTkxMCwiZXhwIjoxNjgxODI1MTEwfQ.nD-hbvvpdjKkXPidPwKQZXt551MsBuYsYA4rwsx9xf8",
 									"type": "string"
 								}
 							]
@@ -250,7 +154,38 @@
 					"response": []
 				},
 				{
-					"name": "Get followers",
+					"name": "get followings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTQwOTg3NCwiZXhwIjoxNjgxNjY5MDc0fQ.49yI_TvH9HAUsvL8cA5znIZAqVNnuUhw67tikj4GaYE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/643aa8c2023f5e3d87a612c4/followings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"643aa8c2023f5e3d87a612c4",
+								"followings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get followers",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -277,7 +212,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/64359439967f905826bf6558/followers",
+							"raw": "http://localhost:8080/users/643aa8cf023f5e3d87a612c8/followers",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -285,8 +220,126 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"64359439967f905826bf6558",
+								"643aa8cf023f5e3d87a612c8",
 								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "follow user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JmMWM2ZTFjMjU1OWI4OWJmZjg1NyIsImlhdCI6MTY4MTY1MDEyNCwiZXhwIjoxNjgxOTA5MzI0fQ.HsnERM1Wn-XiQgxBqiIUVy-HuxeEhf1PRN0Kh0MHW-8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/643bf147e1c2559b89bff842/follow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"643bf147e1c2559b89bff842",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update logged user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2E5NGRiMjJjNmMxYzQ1NTE2NWRhZSIsImlhdCI6MTY4MTU2MDgxNiwiZXhwIjoxNjgxODIwMDE2fQ.Sf5p_8OyJAALxd5NAyz67PbkdzPDKp0Xr66Ba_SWaPw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test\",\n    \"about\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor id aliquet lectus proin nibh nisl condimentum.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2E5NGRiMjJjNmMxYzQ1NTE2NWRhZSIsImlhdCI6MTY4MTU2MDgxNiwiZXhwIjoxNjgxODIwMDE2fQ.Sf5p_8OyJAALxd5NAyz67PbkdzPDKp0Xr66Ba_SWaPw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userRole\": \"ADMIN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/643a94db22c6c1c455165dae/change-role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"643a94db22c6c1c455165dae",
+								"change-role"
 							]
 						}
 					},
@@ -298,46 +351,7 @@
 			"name": "review",
 			"item": [
 				{
-					"name": "Update review",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTIzMzAzNSwiZXhwIjoxNjgxNDkyMjM1fQ.XrZON7D2G6M2aNsM8ZxUQ3Fvyn8j-94bxoKqOpmubZE",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"content\": \"actualización comentario\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/reviews/64359563abdd87bf893adb67",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"reviews",
-								"64359563abdd87bf893adb67"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "my reviews",
+					"name": "all reviews",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -378,7 +392,55 @@
 					"response": []
 				},
 				{
-					"name": "other user review",
+					"name": "reviews logged user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JiYzUxNDQ5MzBhZjFhNTAyNWQyOCIsImlhdCI6MTY4MTYzNjQzNiwiZXhwIjoxNjgxODk1NjM2fQ.tA6REQEM-hb_PPlAXrA5xTFpT3AWvT9hD5k-nHvPKt0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzNlNDAwYTEyM2ExOTQ5ODZmODFiOSIsImlhdCI6MTY4MTE0NjM5OCwiZXhwIjoxNjgxNDA1NTk4fQ.7vtxFOLpi9wXHVmpDadAiYlEJnxjt4Q0LqSxwhONUF8",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reviews",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reviews by user id",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -405,29 +467,30 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/reviews/6433e400a123a194986f81b9",
+							"raw": "http://localhost:8080/users/643bbc5144930af1a5025d28/reviews",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"reviews",
-								"6433e400a123a194986f81b9"
+								"users",
+								"643bbc5144930af1a5025d28",
+								"reviews"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "review create",
+					"name": "create review",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTQwOTg3NCwiZXhwIjoxNjgxNjY5MDc0fQ.49yI_TvH9HAUsvL8cA5znIZAqVNnuUhw67tikj4GaYE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JkMjEwNWY5NmZmNGIyYmJmODVlMCIsImlhdCI6MTY4MTY0MjAwNywiZXhwIjoxNjgxOTAxMjA3fQ.ccoyK7Fd3yhxtqSK3b_Usn2Z3oFXr7RTB0IOJBvDJ2g",
 									"type": "string"
 								}
 							]
@@ -436,7 +499,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"title\": \"test to populate to front\",\n\"content\": \"test test test test test test test test test test test test test test test test test test test test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test test\"\n}",
+							"raw": "{\n    \"film\": {\n        \"title\": \"Blade Runner\",\n        \"plot\": \"In the early twenty-first century, the Tyrell Corporation, during what was called the Nexus phase, developed robots, called \\\"replicants\\\", that were supposed to aid society, the replicants which looked and acted like humans. When the superhuman generation Nexus 6 replicants, used for dangerous off-Earth endeavors, began a mutiny on an off-Earth colony, replicants became illegal on Earth. Police units, called \\\"blade runners\\\", have the job of destroying - or in their parlance \\\"retiring\\\" - any replicant that makes its way back to or created on Earth, with anyone convicted of aiding or assisting a replicant being sentenced to death. It's now November, 2019 in Los Angeles, California. Rick Deckard, a former blade runner, is called out of retirement when four known replicants, most combat models, have made their way back to Earth, with their leader being Roy Batty. One, Leon Kowalski, tried to infiltrate his way into the Tyrell Corporation as an employee, but has since been able to escape. Beyond following Leon's trail in hopes of finding and retiring them all, Deckard believes part of what will help him is figuring out what the replicants wanted with the Tyrell Corporation in trying to infiltrate it. The answer may lie with Tyrell's fail-safe backup mechanism. Beyond tracking the four, Deckard faces a possible dilemma in encountering a fifth replicant: Rachael, who works as Tyrell's assistant. The issue is that Dr. Elden Tyrell is experimenting with her, to provide her with fake memories so as to be able to better control her. With those memories, Rachael has no idea that she is not human. The problem is not only Rachael's assistance to Deckard, but that he is beginning to develop feelings for her.\",\n        \"year\": \"1982\",\n        \"director\": \"Ridley Scott\",\n        \"writer\": \"Hampton Fancher, David Webb Peoples, Philip K. Dick\",\n        \"actors\": \"Harrison Ford, Rutger Hauer, Sean Young\",\n        \"genre\": \"Action, Drama, Sci-Fi\",\n        \"runtime\": \"117 min\",\n        \"country\": \"United States\",\n        \"poster\": \"https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg\",\n        \"imdbId\": \"tt0083658\",\n        \"rating\": \"8.1\"\n    },\n    \"review\": {\n        \"title\": \"This is the review title\",\n        \"rating\": 4,\n        \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor id aliquet lectus proin nibh nisl condimentum. Egestas purus viverra accumsan in nisl nisi scelerisque. Tellus cras adipiscing enim eu turpis. Ornare massa eget egestas purus viverra accumsan in nisl.\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -456,85 +519,9 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "comment",
-			"item": [
-				{
-					"name": "Create comment",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTIzMzAzNSwiZXhwIjoxNjgxNDkyMjM1fQ.XrZON7D2G6M2aNsM8ZxUQ3Fvyn8j-94bxoKqOpmubZE",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"title\": \"hola kee ase\",\n    \"content\": \"deja el wasa el clase deja el wasa el clase deja el wasa el clase deja el wasa el clase deja el wasa el clase deja el wasa el clase deja el wasa el clase deja el wasa el clase\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/reviews/64359563abdd87bf893adb67/comments",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"reviews",
-								"64359563abdd87bf893adb67",
-								"comments"
-							]
-						}
-					},
-					"response": []
 				},
 				{
-					"name": "Delete comment",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTIzMzAzNSwiZXhwIjoxNjgxNDkyMjM1fQ.XrZON7D2G6M2aNsM8ZxUQ3Fvyn8j-94bxoKqOpmubZE",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/comments/6435a628602ef8bc97aaa611/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"comments",
-								"6435a628602ef8bc97aaa611",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update comment",
+					"name": "update review",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -550,7 +537,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"content\": \"que no lo dejo\"\n}",
+							"raw": "{\n    \"content\": \"actualización comentario\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -558,7 +545,125 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/comments/6435a6940cb1328ba824f742/update",
+							"raw": "http://localhost:8080/reviews/64359563abdd87bf893adb67",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews",
+								"64359563abdd87bf893adb67"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "comments by review id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MmIxYzc0NTEwY2I1YzJiNDY0MDhlNiIsImlhdCI6MTY4MTE0ODU5MSwiZXhwIjoxNjgxNDA3NzkxfQ.-DQqdqLtiCsF8ZyMhlhLsyYauIjCXpBx55fBVUaKpR0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reviews/643bd2375f96ff4b2bbf85e9/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews",
+								"643bd2375f96ff4b2bbf85e9",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JkZTlmN2UzNzg4ZDlhMmE0NTZkZCIsImlhdCI6MTY4MTY0NTIxOCwiZXhwIjoxNjgxOTA0NDE4fQ.TT4kUivLN1oXhzx6lo1zLw5yBiKYcgIXuXmS_vnqQ7U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor id aliquet lectus proin nibh nisl condimentum. Egestas purus viverra accumsan in nisl nisi scelerisque. Tellus cras adipiscing enim eu turpis. Ornare massa eget egestas purus viverra accumsan in nisl.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reviews/643bd2375f96ff4b2bbf85e9/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews",
+								"643bd2375f96ff4b2bbf85e9",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JkZTlmN2UzNzg4ZDlhMmE0NTZkZCIsImlhdCI6MTY4MTY0NzE3MCwiZXhwIjoxNjgxOTA2MzcwfQ.zbEAIImDnOyqgFXIuNW7fZ1xI0ubeBB2zsLLgv4_pQ4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/comments/643be673d44bf728b87fb850",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -566,7 +671,46 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"6435a6940cb1328ba824f742",
+								"643be673d44bf728b87fb850"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JkZTlmN2UzNzg4ZDlhMmE0NTZkZCIsImlhdCI6MTY4MTY0NzE3MCwiZXhwIjoxNjgxOTA2MzcwfQ.zbEAIImDnOyqgFXIuNW7fZ1xI0ubeBB2zsLLgv4_pQ4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/comments/643be69ed44bf728b87fb854/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								"643be69ed44bf728b87fb854",
 								"update"
 							]
 						}
@@ -579,14 +723,14 @@
 			"name": "report",
 			"item": [
 				{
-					"name": "Report review create",
+					"name": "report review by id",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTIzMzAzNSwiZXhwIjoxNjgxNDkyMjM1fQ.XrZON7D2G6M2aNsM8ZxUQ3Fvyn8j-94bxoKqOpmubZE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JkZTlmN2UzNzg4ZDlhMmE0NTZkZCIsImlhdCI6MTY4MTY0NTIxOCwiZXhwIjoxNjgxOTA0NDE4fQ.TT4kUivLN1oXhzx6lo1zLw5yBiKYcgIXuXmS_vnqQ7U",
 									"type": "string"
 								}
 							]
@@ -595,7 +739,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"reason\": \"este comentario no tiene ningún sentido\"\n}",
+							"raw": "{\n    \"reason\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor id aliquet lectus proin nibh nisl condimentum. Egestas purus viverra accumsan in nisl nisi scelerisque. Tellus cras adipiscing enim eu turpis. Ornare massa eget egestas purus viverra accumsan in nisl.\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -603,7 +747,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/reviews/64359563abdd87bf893adb67/report",
+							"raw": "http://localhost:8080/reviews/643bd2375f96ff4b2bbf85e9/report",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -611,7 +755,7 @@
 							"port": "8080",
 							"path": [
 								"reviews",
-								"64359563abdd87bf893adb67",
+								"643bd2375f96ff4b2bbf85e9",
 								"report"
 							]
 						}
@@ -619,14 +763,14 @@
 					"response": []
 				},
 				{
-					"name": "Report comment create",
+					"name": "report comment by id",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzU5NDM5OTY3ZjkwNTgyNmJmNjU1OCIsImlhdCI6MTY4MTIzMzAzNSwiZXhwIjoxNjgxNDkyMjM1fQ.XrZON7D2G6M2aNsM8ZxUQ3Fvyn8j-94bxoKqOpmubZE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JkZTlmN2UzNzg4ZDlhMmE0NTZkZCIsImlhdCI6MTY4MTY0NTIxOCwiZXhwIjoxNjgxOTA0NDE4fQ.TT4kUivLN1oXhzx6lo1zLw5yBiKYcgIXuXmS_vnqQ7U",
 									"type": "string"
 								}
 							]
@@ -635,7 +779,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"reason\": \"este comentario es inapropiado\"\n}",
+							"raw": "{\n    \"reason\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor id aliquet lectus proin nibh nisl condimentum. Egestas purus viverra accumsan in nisl nisi scelerisque. Tellus cras adipiscing enim eu turpis. Ornare massa eget egestas purus viverra accumsan in nisl.\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -643,7 +787,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/comments/6435a64ad6d4461b75924a94/report",
+							"raw": "http://localhost:8080/comments/643be130656a5ce5606dbe17/report",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -651,7 +795,7 @@
 							"port": "8080",
 							"path": [
 								"comments",
-								"6435a64ad6d4461b75924a94",
+								"643be130656a5ce5606dbe17",
 								"report"
 							]
 						}
@@ -659,7 +803,7 @@
 					"response": []
 				},
 				{
-					"name": "Reports list to Admin",
+					"name": "list all",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -690,6 +834,56 @@
 			]
 		},
 		{
+			"name": "films",
+			"item": [
+				{
+					"name": "film by title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/films?title=Blade Runner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"films"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Blade Runner"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "film by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/films/643bd2215f96ff4b2bbf85e4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"films",
+								"643bd2215f96ff4b2bbf85e4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "health",
 			"request": {
 				"method": "GET",
@@ -703,34 +897,6 @@
 					"port": "8080",
 					"path": [
 						"health"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"toque@gmail.es\",\n    \"password\": \"12345678\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"login"
 					]
 				}
 			},

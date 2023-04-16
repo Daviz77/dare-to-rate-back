@@ -33,7 +33,7 @@ app.use((error, req, res, next) => {
     error = createError(StatusCodes.BAD_REQUEST, error)
   } else if (error instanceof mongoose.Error.CastError) {
     error = createError(StatusCodes.BAD_REQUEST, 'Resource not found')
-  } else if (error.message.includes('E11000')) {
+  } else if (error.message && error.message.includes('E11000')) {
     error = createError(StatusCodes.BAD_REQUEST, 'Resource already exists')
   } else if (error instanceof jwt.JsonWebTokenError) {
     error = createError(StatusCodes.UNAUTHORIZED, error)

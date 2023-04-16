@@ -1,76 +1,106 @@
-const { StatusCodes } = require("http-status-codes")
-const Review = require("../models/Review.model")
-const createError = require("http-errors")
-const User = require("../models/User.model")
+const { StatusCodes } = require('http-status-codes')
+const Review = require('../models/Review.model')
+const Film = require('../models/Film.model')
+const createError = require('http-errors')
+const User = require('../models/User.model')
 
 module.exports.create = (req, res, next) => {
 	const author = req.currentUserId
-	const { content, like, title, reviewId } = req.body
-	Review.create({ content, like, author, title, reviewId })
-		.then((reviewCreated) => {
-			res.status(StatusCodes.CREATED).json(reviewCreated)
+	const { review, film } = req.body
+
+	if (!film || !review) {
+		return next(createError(StatusCodes.BAD_REQUEST, 'Body fileds `review` and `film` are required'))
+	}
+
+	if (!film._id) {
+		return Film.findOne({ imdbId: film.imdbId })
+			.then(filmRes => {
+				if (!filmRes) {
+					return Film.create(film)
+						.then(filmCreated => createReview({ ...review, author, film: filmCreated._id }, res, next))
+						.catch(next)
+				}
+
+				createReviewIfUserDoesNotYetHaveOne({ ...review, author, film: filmRes._id }, res, next)
+			})
+	}
+
+
+	createReviewIfUserDoesNotYetHaveOne({ ...review, author, film: film._id }, res, next)
+}
+
+const createReviewIfUserDoesNotYetHaveOne = (review, res, next) =>
+	Review.find({ author: review.author })
+		.then(reviews => {
+			if (reviews.length > 0) return next(createError(StatusCodes.CONFLICT, 'User already has a review'))
+			createReview(review, res, next)
 		})
 		.catch(next)
-}
+
+const createReview = (review, res, next) =>
+	Review.create(review)
+		.then((reviewCreated) => res.status(StatusCodes.CREATED).send())
+		.catch(next)
 
 module.exports.getAllReviews = (req, res, next) => {
 	const reviewsLimit = 10
 
 	if (req.currentUserId) {
 		return User.findById(req.currentUserId)
-		.then((user) =>
-			Review.find({ author: { $in: user.following } })
+		.then(user =>
+			Review.find({ author: { $in: user.followings } })
 				.limit(reviewsLimit)
 				.sort({ createdAt: -1 })
-				.populate("author", "username")
-				.then((reviews) => res.json(reviews))
+				.populate('author', 'username img')
+				.then(followedReviews => 
+					Review.find({ author: { $ne: user.followings }})
+						.limit(reviewsLimit)
+						.sort({ createdAt: -1 })
+						.populate('author', 'username img')
+					.then(otherReviews => res.json({ data: { followedReviews , otherReviews }})))
 				.catch(next))
+			.catch(next)
 	}
 
 	Review.find()
 		.limit(reviewsLimit)
 		.sort({ createdAt: -1 })
-		.populate("author", "username")
-		.then((reviews) => res.json(reviews))
+		.populate('author', 'username img')
+		.then((reviews) => res.json({ data: { reviews }}))
 		.catch(next)
 }
 
-module.exports.getUsersReviews = (req, res, next) => {
+module.exports.getReviewsByUserId = (req, res, next) => {
 	const { userId } = req.params
 	Review.find({ author: userId })
-		.then((reviews) => {
-			return res.json(reviews)
-		})
+		.then((reviews) => res.json({ data: reviews }))
 		.catch(next)
 }
 
 module.exports.updateReview = (req, res, next) => {
-	const { id } = req.params
-	const { title, content, likes } = req.body
+	const { reviewId } = req.params
+	const { title, content } = req.body
 
-	Review.findById(id)
+	Review.findById(reviewId)
 		.then((review) => {
-			if (review.author._id + "" === req.currentUserId) {
+			if (review.author._id + '' === req.currentUserId) {
 				return Review.findByIdAndUpdate(
 					id,
 					{ title, content, likes },
 					{ new: true, runValidators: true }
 				)
-					.then((review) => res.status(StatusCodes.OK).json(review))
+					.then((review) => res.status(StatusCodes.OK).json({ data: review }))
 					.catch(next)
 			}
 
-			throw createError(
-				StatusCodes.UNAUTHORIZED,
-				"You are not the author of this review"
-			)
+			return next(createError( StatusCodes.UNAUTHORIZED, 'You are not the author of this review'))
 		})
 		.catch(next)
 }
 
 module.exports.deleteReview = (req, res, next) => {
-	const { id } = req.params
-	Review.findByIdAndDelete(id)
+	const { reviewId } = req.params
+	Review.findByIdAndDelete(reviewId)
 		.then(() => res.status(StatusCodes.OK))
 		.catch(next)
 }

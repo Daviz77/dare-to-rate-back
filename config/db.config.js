@@ -1,8 +1,8 @@
-const mongoose = require("mongoose")
-require("dotenv").config()
+const mongoose = require('mongoose')
+require('dotenv').config()
 
-const DB_NAME = "dare-to-rate"
-const URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017"
+const DB_NAME = 'dare-to-rate'
+const URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017'
 const DB_URI = `${URI}/${DB_NAME}`
 
 mongoose
@@ -16,9 +16,9 @@ mongoose
 		process.exit(0)
 	})
 
-process.on("SIGINT", () => {
+process.on('SIGINT', () => {
 	mongoose.connection.close().then(function () {
-		console.log("Mongoose disconnected on app termination")
+		console.log('Mongoose disconnected on app termination')
 		process.exit(0)
 	})
 })

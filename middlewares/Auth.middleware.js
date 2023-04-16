@@ -1,37 +1,37 @@
-const jwt = require("jsonwebtoken")
-const createError = require("http-errors")
-const { StatusCodes } = require("http-status-codes")
+const jwt = require('jsonwebtoken')
+const createError = require('http-errors')
+const { StatusCodes } = require('http-status-codes')
 
 module.exports.isAuthenticated = (req, res, next) => {
-	const authorization = req.header("Authorization")
+	const authorization = req.header('Authorization')
 
 	if (!authorization) {
 		return next(
 			createError(
 				StatusCodes.UNAUTHORIZED,
-				"Authorization header was not provided"
+				'Authorization header was not provided'
 			)
 		)
 	}
 
-	const [schema, token] = authorization.split(" ")
+	const [schema, token] = authorization.split(' ')
 
-	if (schema !== "Bearer") {
+	if (schema !== 'Bearer') {
 		return next(
 			createError(
 				StatusCodes.UNAUTHORIZED,
-				"Authorization schema is not supported"
+				'Authorization schema is not supported'
 			)
 		)
 	}
 
 	if (!token) {
 		return next(
-			createError(StatusCodes.UNAUTHORIZED, "A token must be provided")
+			createError(StatusCodes.UNAUTHORIZED, 'A token must be provided')
 		)
 	}
 
-	const secret = process.env.JWT_SECRET || "test"
+	const secret = process.env.JWT_SECRET || 'test'
 	jwt.verify(token, secret, (err, decodedToken) => {
 		if (err) {
 			return next(err)
@@ -43,19 +43,19 @@ module.exports.isAuthenticated = (req, res, next) => {
 }
 
 module.exports.setCurrentUserIdIfExists = (req, res, next) => {
-	const authorization = req.header("Authorization")
+	const authorization = req.header('Authorization')
 
 	if (!authorization) {
 		return next()
 	}
 
-	const [schema, token] = authorization.split(" ")
+	const [schema, token] = authorization.split(' ')
 
-	if (schema !== "Bearer" || !token) {
+	if (schema !== 'Bearer' || !token) {
 		return next()
 	}
 
-	const secret = process.env.JWT_SECRET || "test"
+	const secret = process.env.JWT_SECRET || 'test'
 	jwt.verify(token, secret, (err, decodedToken) => {
 		if (err) {
 			return next()
