@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5bf90b99-a934-49a5-8dcf-8400561b52fc",
+		"_postman_id": "ee792a2e-8fd9-4c54-b852-0094d01d297b",
 		"name": "dare-to-rate",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23191222"
+		"_exporter_id": "26674137"
 	},
 	"item": [
 		{
@@ -515,6 +515,46 @@
 							"port": "8080",
 							"path": [
 								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "like review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JmYjMzNjM1OGQwMzg2NDNkMWI2MSIsImlhdCI6MTY4MTY1MjUzOSwiZXhwIjoxNjgxOTExNzM5fQ.1S1KbVBJ63NvzTO__Pmabp4aOfxNHuN9LM-BQhIAJdQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reviews/643bfb566358d038643d1b67/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews",
+								"643bfb566358d038643d1b67",
+								"like"
 							]
 						}
 					},
