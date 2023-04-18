@@ -22,28 +22,28 @@ module.exports.getUserById = (req, res, next) => {
 	const { userId } = req.params
 	User.findById(userId)
 		.lean()
-		.then(user => {
+		.then((user) => {
 			if (!user) return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
-			return Review.find({ author: user._id })
-				.then(reviews => res.json({ data: { ...user, reviews }}))
+			return Review.find({ author: user._id }).then((reviews) => res.json({ data: { ...user, reviews } }))
 		})
 		.catch(next)
 }
 
 module.exports.updateLogedUser = (req, res, next) => {
+	if (req.file) {
+		req.body.img = req.file.path
+	}
+
 	const { username, img, about } = req.body
-	User.findByIdAndUpdate(req.currentUserId, { username, img, about, }, { new: true, runValidators: true })
+
+	User.findByIdAndUpdate(req.currentUserId, { username, img, about }, { new: true, runValidators: true })
 		.then(() => res.status(StatusCodes.NO_CONTENT).send())
 		.catch(next)
 }
 
 module.exports.followUser = (req, res, next) => {
 	const { userId } = req.params
-	User.findByIdAndUpdate(
-		req.currentUserId,
-		{ $push: { followings: userId } },
-		{ new: true }
-	)
+	User.findByIdAndUpdate(req.currentUserId, { $push: { followings: userId } }, { new: true })
 		.then((user) => {
 			if (!user) {
 				return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
@@ -77,7 +77,7 @@ module.exports.changeUserRole = (req, res, next) => {
 	const { userId } = req.params
 	const { userRole } = req.body
 
-	if (!userRole || userRole !== 'ADMIN' && userRole !== 'USER') {
+	if (!userRole || (userRole !== 'ADMIN' && userRole !== 'USER')) {
 		return next(createError(StatusCodes.BAD_REQUEST, 'Body field `userRole` is required and must be `ADMIN` or `USER`'))
 	}
 

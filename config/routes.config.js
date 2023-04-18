@@ -10,7 +10,7 @@ const reportsController = require('../controllers/reports.controller')
 const filmsController = require('../controllers/films.controller')
 const authMiddleware = require('../middlewares/Auth.middleware')
 const adminMiddleware = require('../middlewares/Admin.middleware')
-const upload = require('../config/storage.config')
+const uploadCloud = require('../config/storage.config')
 
 // HEALTH
 router.get('/health', healthController.health)
@@ -25,7 +25,7 @@ router.get('/profile', authMiddleware.isAuthenticated, usersController.getCurren
 // USERS
 router.get('/users/:userId', usersController.getUserById)
 
-router.patch('/users', authMiddleware.isAuthenticated, usersController.updateLogedUser)
+router.patch('/users', authMiddleware.isAuthenticated, uploadCloud.single('image'), usersController.updateLogedUser)
 
 router.get('/users/:userId/reviews', reviewsController.getReviewsByUserId)
 
