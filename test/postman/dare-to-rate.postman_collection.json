@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f0d774f0-1c76-4788-9cb2-8e5c347f1eaa",
+		"_postman_id": "0767a4d5-bbfb-4611-9cde-e2bd4a92d2d4",
 		"name": "dare-to-rate",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23191222"
+		"_exporter_id": "26674137"
 	},
 	"item": [
 		{
@@ -476,6 +476,27 @@
 							"path": [
 								"users",
 								"643bbc5144930af1a5025d28",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reviews by film id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/films/643bfb566358d038643d1b65/reviews",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"films",
+								"643bfb566358d038643d1b65",
 								"reviews"
 							]
 						}

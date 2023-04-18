@@ -74,4 +74,6 @@ router.get('/films', filmsController.getFilm)
 
 router.get('/films/:filmId', filmsController.getFilmById)
 
+router.get('/films/:filmId/reviews', reviewsController.getReviewsByFilmId)
+
 module.exports = router

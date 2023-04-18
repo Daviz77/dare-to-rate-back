@@ -44,7 +44,7 @@ const calcRating = (film, res, next)  =>
 		})
 		.catch(next)
 
-module.exports.createFilmResponseFromImdbApi = film => {
+const createFilmResponseFromImdbApi = film => {
 	return {
 		title: film.Title,
 		plot: film.Plot,
@@ -59,3 +59,5 @@ module.exports.createFilmResponseFromImdbApi = film => {
 		imdbId: film.imdbID
 	}
 }
+
+module.exports.createFilmResponseFromImdbApi = createFilmResponseFromImdbApi

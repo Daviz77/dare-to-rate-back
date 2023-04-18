@@ -84,6 +84,13 @@ module.exports.getAllReviews = (req, res, next) => {
 		.catch(next)
 }
 
+module.exports.getReviewsByFilmId = (req, res, next) => {
+	const { filmId } = req.params
+	Review.find({ film: filmId })
+		.then((reviews) => res.json({ data: reviews }))
+		.catch(next)
+}
+
 module.exports.getReviewsByUserId = (req, res, next) => {
 	const { userId } = req.params
 	Review.find({ author: userId })
