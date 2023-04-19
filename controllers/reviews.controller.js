@@ -15,12 +15,17 @@ module.exports.create = (req, res, next) => {
 	}
 
 	if (!film._id) {
-		return Film.findOne({ imdbId: film.imdbId }).then(filmRes => {
+		return Film.findOne({ imdbId: film.imdbId }).then((filmRes) => {
 			if (!filmRes) {
-				return axios.get(process.env.OMDB_API_HOST, { params: { apiKey: process.env.OMDB_API_KEY, plot: 'full', i: film.imdbId  } })
-					.then(imdbResponse => Film.create(createFilmResponseFromImdbApi(imdbResponse.data))
-						.then(filmCreated => createReview({ ...review, author, film: filmCreated._id }, res, next))
-						.catch(next))
+				return axios
+					.get(process.env.OMDB_API_HOST, {
+						params: { apiKey: process.env.OMDB_API_KEY, plot: 'full', i: film.imdbId },
+					})
+					.then((imdbResponse) =>
+						Film.create(createFilmResponseFromImdbApi(imdbResponse.data))
+							.then((filmCreated) => createReview({ ...review, author, film: filmCreated._id }, res, next))
+							.catch(next)
+					)
 					.catch(next)
 			}
 
@@ -45,7 +50,9 @@ const createReview = (review, res, next) =>
 		.catch(next)
 
 module.exports.getAllReviews = (req, res, next) => {
-	const reviewsLimit = 10
+	const limit = 10
+	const page = req.query.page || 1
+	const skip = (page - 1) * limit
 
 	if (req.currentUserId) {
 		return User.findById(req.currentUserId)
@@ -53,7 +60,8 @@ module.exports.getAllReviews = (req, res, next) => {
 				if (!user) return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
 				if (!user.followings.length) {
 					return Review.find()
-						.limit(reviewsLimit)
+						.skip(skip)
+						.limit(limit)
 						.sort({ createdAt: -1 })
 						.populate('author', 'username img')
 						.then((otherReviews) => res.json({ data: { followedReviews: [], otherReviews } }))
@@ -61,12 +69,13 @@ module.exports.getAllReviews = (req, res, next) => {
 				}
 
 				return Review.find({ author: { $in: user.followings } })
-					.limit(reviewsLimit)
+					.skip(skip)
+					.limit(limit)
 					.sort({ createdAt: -1 })
 					.populate('author', 'username img')
 					.then((followedReviews) =>
 						Review.find({ author: { $ne: user.followings } })
-							.limit(reviewsLimit)
+							.limit(limit)
 							.sort({ createdAt: -1 })
 							.populate('author', 'username img')
 							.then((otherReviews) => res.json({ data: { followedReviews, otherReviews } }))
@@ -77,7 +86,8 @@ module.exports.getAllReviews = (req, res, next) => {
 	}
 
 	Review.find()
-		.limit(reviewsLimit)
+		.skip(skip)
+		.limit(limit)
 		.sort({ createdAt: -1 })
 		.populate('author', 'username img')
 		.then((reviews) => res.json({ data: { reviews } }))
