@@ -64,6 +64,7 @@ module.exports.getAllReviews = (req, res, next) => {
 						.limit(limit)
 						.sort({ createdAt: -1 })
 						.populate('author', 'username img')
+						.populate({ path: 'comments', populate: { path: 'author' } })
 						.then((otherReviews) => res.json({ data: { followedReviews: [], otherReviews } }))
 						.catch(next)
 				}
@@ -73,6 +74,7 @@ module.exports.getAllReviews = (req, res, next) => {
 					.limit(limit)
 					.sort({ createdAt: -1 })
 					.populate('author', 'username img')
+					.populate({ path: 'comments', populate: { path: 'author' } })
 					.then((followedReviews) =>
 						Review.find({ author: { $ne: user.followings } })
 							.limit(limit)
@@ -90,6 +92,7 @@ module.exports.getAllReviews = (req, res, next) => {
 		.limit(limit)
 		.sort({ createdAt: -1 })
 		.populate('author', 'username img')
+		.populate({ path: 'comments', populate: { path: 'author' } })
 		.then((reviews) => res.json({ data: { reviews } }))
 		.catch(next)
 }
@@ -106,6 +109,7 @@ module.exports.getReviewsByFilmId = (req, res, next) => {
 module.exports.getReviewsByUserId = (req, res, next) => {
 	const { userId } = req.params
 	Review.find({ author: userId })
+		.populate({ path: 'comments', populate: { path: 'author' } })
 		.then((reviews) => res.json({ data: reviews }))
 		.catch(next)
 }
