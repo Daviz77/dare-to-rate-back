@@ -47,8 +47,18 @@ const reviewSchema = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
+		toJSON: {
+			virtuals: true,
+		}
 	}
 )
+
+reviewSchema.virtual('comments', {
+	ref: 'Comment',
+	localField: '_id',
+	foreignField: 'review',
+	justOne: false,
+})
 
 const Review = mongoose.model('Review', reviewSchema)
 

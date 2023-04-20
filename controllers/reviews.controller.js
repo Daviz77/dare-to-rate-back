@@ -97,6 +97,8 @@ module.exports.getAllReviews = (req, res, next) => {
 module.exports.getReviewsByFilmId = (req, res, next) => {
 	const { filmId } = req.params
 	Review.find({ film: filmId })
+		.populate('author')
+		.populate({ path: 'comments', populate: { path: 'author' } })
 		.then((reviews) => res.json({ data: reviews }))
 		.catch(next)
 }
@@ -153,7 +155,7 @@ module.exports.likeReview = (req, res, next) => {
 			}
 
 			review.save()
-			return res.status(StatusCodes.OK).send()
+			return res.status(StatusCodes.OK).json({ data: review })
 		})
 		.catch(next)
 }
