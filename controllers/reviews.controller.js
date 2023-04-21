@@ -59,7 +59,7 @@ module.exports.getAllReviews = (req, res, next) => {
 			.then((user) => {
 				if (!user) return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
 				if (!user.followings.length) {
-					return Review.find()
+					return Review.find({ author: { $ne: user._id } })
 						.skip(skip)
 						.limit(limit)
 						.sort({ createdAt: -1 })
@@ -76,7 +76,7 @@ module.exports.getAllReviews = (req, res, next) => {
 					.populate('author', 'username img')
 					.populate({ path: 'comments', populate: { path: 'author' } })
 					.then((followedReviews) =>
-						Review.find({ author: { $ne: user.followings } })
+						Review.find({ author: { $nin: [user._id, ...user.followings] } })
 							.limit(limit)
 							.sort({ createdAt: -1 })
 							.populate('author', 'username img')
@@ -100,7 +100,7 @@ module.exports.getAllReviews = (req, res, next) => {
 module.exports.getReviewsByFilmId = (req, res, next) => {
 	const { filmId } = req.params
 	Review.find({ film: filmId })
-		.populate('author')
+		.populate('author', 'username img')
 		.populate({ path: 'comments', populate: { path: 'author' } })
 		.then((reviews) => res.json({ data: reviews }))
 		.catch(next)
