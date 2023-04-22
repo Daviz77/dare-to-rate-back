@@ -10,10 +10,9 @@ const { StatusCodes } = require('http-status-codes');
 
 require('./config/db.config');
 
-const frontPort = process.env.FRONT_PORT
 const app = express();
 app.use(cors({
-  origin: `http://localhost:${frontPort}`,
+  origin: process.env.CORS_ORIGIN,
 }))
 
 app.use(logger('dev'));

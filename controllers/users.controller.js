@@ -43,12 +43,18 @@ module.exports.updateLogedUser = (req, res, next) => {
 
 module.exports.followUser = (req, res, next) => {
 	const { userId } = req.params
-	User.findByIdAndUpdate(req.currentUserId, { $push: { followings: userId } }, { new: true })
+	User.findById(req.currentUserId)
 		.then((user) => {
 			if (!user) {
 				return next(createError(StatusCodes.NOT_FOUND, 'User not found'))
+			} else if (user.followings.includes(userId)) {
+				return User.findByIdAndUpdate(req.currentUserId, { $pull: { followings: userId } }, { new: true }).then(() =>
+					res.status(StatusCodes.NO_CONTENT).send()
+				)
 			} else {
-				return res.status(StatusCodes.NO_CONTENT).send()
+				return User.findByIdAndUpdate(req.currentUserId, { $push: { followings: userId } }, { new: true }).then(() =>
+					res.status(StatusCodes.NO_CONTENT).send()
+				)
 			}
 		})
 		.catch(next)
