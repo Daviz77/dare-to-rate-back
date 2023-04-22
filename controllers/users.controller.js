@@ -43,6 +43,8 @@ module.exports.updateLogedUser = (req, res, next) => {
 
 module.exports.followUser = (req, res, next) => {
 	const { userId } = req.params
+	if (userId === req.currentUserId) return next(createError(StatusCodes.BAD_REQUEST, 'You cannot follow yourself'))
+	
 	User.findById(req.currentUserId)
 		.then((user) => {
 			if (!user) {

@@ -110,6 +110,7 @@ module.exports.getReviewsByUserId = (req, res, next) => {
 	const { userId } = req.params
 	Review.find({ author: userId })
 		.populate({ path: 'comments', populate: { path: 'author' } })
+		.populate('film', 'title poster')
 		.then((reviews) => res.json({ data: reviews }))
 		.catch(next)
 }
