@@ -65,6 +65,7 @@ module.exports.getAllReviews = (req, res, next) => {
 						.sort({ createdAt: -1 })
 						.populate('author', 'username img')
 						.populate({ path: 'comments', populate: { path: 'author' } })
+						.populate('film', 'title poster')
 						.then((otherReviews) => res.json({ data: { followedReviews: [], otherReviews } }))
 						.catch(next)
 				}
@@ -75,11 +76,14 @@ module.exports.getAllReviews = (req, res, next) => {
 					.sort({ createdAt: -1 })
 					.populate('author', 'username img')
 					.populate({ path: 'comments', populate: { path: 'author' } })
+					.populate('film', 'title poster')
 					.then((followedReviews) =>
 						Review.find({ author: { $nin: [user._id, ...user.followings] } })
 							.limit(limit)
 							.sort({ createdAt: -1 })
 							.populate('author', 'username img')
+							.populate({ path: 'comments', populate: { path: 'author' } })
+							.populate('film', 'title poster')
 							.then((otherReviews) => res.json({ data: { followedReviews, otherReviews } }))
 					)
 					.catch(next)
@@ -93,6 +97,7 @@ module.exports.getAllReviews = (req, res, next) => {
 		.sort({ createdAt: -1 })
 		.populate('author', 'username img')
 		.populate({ path: 'comments', populate: { path: 'author' } })
+		.populate('film', 'title poster')
 		.then((reviews) => res.json({ data: { reviews } }))
 		.catch(next)
 }
