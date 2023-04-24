@@ -9,13 +9,12 @@ const reviewSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: [true, REQUIRED_FIELD],
-			minlength: [6, INVALID_LENGTH],
+			minlength: [4, INVALID_LENGTH],
 		},
 		content: {
 			type: String,
 			required: true,
 			minlength: 50,
-			maxlength: 500,
 			required: [true, REQUIRED_FIELD]
 		},
 		rating: {
