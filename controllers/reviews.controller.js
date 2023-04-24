@@ -37,7 +37,7 @@ module.exports.create = (req, res, next) => {
 }
 
 const createReviewIfUserDoesNotYetHaveOne = (review, res, next) =>
-	Review.find({ author: review.author })
+	Review.find({ film: review.film, author: review.author })
 		.then((reviews) => {
 			if (reviews.length > 0) return next(createError(StatusCodes.CONFLICT, 'User already has a review'))
 			createReview(review, res, next)
@@ -46,7 +46,7 @@ const createReviewIfUserDoesNotYetHaveOne = (review, res, next) =>
 
 const createReview = (review, res, next) =>
 	Review.create(review)
-		.then((reviewCreated) => res.status(StatusCodes.CREATED).send())
+		.then((reviewCreated) => res.status(StatusCodes.CREATED).json({ data: reviewCreated}))
 		.catch(next)
 
 module.exports.getAllReviews = (req, res, next) => {
