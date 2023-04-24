@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: [true, REQUIRED_FIELD],
-			minlength: [6, INVALID_LENGTH],
+			minlength: [4, INVALID_LENGTH],
 		},
 		type: {
 			type: String,
@@ -37,12 +37,10 @@ const userSchema = new mongoose.Schema(
 		},
 		img: {
 			type: String,
-			default: 'https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png',
+			default: 'https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg',
 		},
 		about: {
-			type: String,
-			minlength: 50,
-			maxlength: 1000,
+			type: String
 		},
 		followings: [
 			{
