@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
 		},
 		img: {
 			type: String,
-			default: 'https://cronicavasca.elespanol.com/uploads/s1/16/11/39/51/visita-san-mames.jpeg',
+			default: 'https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png',
 		},
 		about: {
 			type: String,

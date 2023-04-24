@@ -17,7 +17,7 @@ router.get('/health', healthController.health)
 
 // AUTH
 router.post('/login', authController.login)
-router.post('/signup', usersController.create)
+router.post('/signup', uploadCloud.single('image'), usersController.create)
 
 // PROFILE
 router.get('/profile', authMiddleware.isAuthenticated, usersController.getCurrentUserProfile)
